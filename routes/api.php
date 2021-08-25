@@ -38,8 +38,8 @@ Route::post('add', [ManageController::class, 'adminAdd'])->name('admin_add');;
 Route::post('delete', [ManageController::class, 'adminDelete'])->name('admin_delete');;
 
 //not used
-Route::post('view/teacher', [UserController::class, 'teacherView'])->name('teacherView');
-Route::post('view/student', [UserController::class, 'studentView'])->name('studentView');
+// Route::post('view/teacher', [UserController::class, 'teacherView'])->name('teacherView');
+// Route::post('view/student', [UserController::class, 'studentView'])->name('studentView');
 
 
 // Route::get('chat', [ChatController::class, 'chat']);

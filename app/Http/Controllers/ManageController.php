@@ -18,11 +18,14 @@ class ManageController extends Controller
     {
 
         $roles = $request->user('api')->role_id;
+        $emails = $request->user('api')->email;
+        $schoolId = $request->user('api')->school_id;
         $role = Config::get("constants.roles.$roles");
 
         if($role == "school_admin"){
 
-            $user = ModelsUser::paginate(15) ;
+            $user = ModelsUser::where('email', '<>', $emails)
+                                ->where('school_id', '=',$schoolId)->get();
 
             if(empty($user)){
                 return response()->json([
@@ -37,7 +40,8 @@ class ManageController extends Controller
 
         } else if($role == "teacher"){
 
-            $user = ModelsUser::where('role','<>', 'school_admin')->get();
+            $user = ModelsUser::where('role','<>', 'school_admin')
+                                ->where('school_id', '=',$schoolId)->get();
 
             if(empty($user)){
                 return response()->json([
@@ -51,8 +55,8 @@ class ManageController extends Controller
             ]);
 
         } else if($role == "student"){
-
-            $user = ModelsUser::where('role','=', 'student')->get();
+            $user = ModelsUser::where('role','=', 'student')
+                                ->where('school_id', '=',$schoolId)->get();
 
             if(empty($user)){
                 return response()->json([
@@ -82,6 +86,7 @@ class ManageController extends Controller
             $schoolName = $request->user('api')->school_name;
             $password   = bcrypt("password");
 
+
             $validator = Validator::make(
                 ['username' => $request->username], ['username' => 'required|string'],
                 ['email' => $request->email], ['email' => 'required|string|email|unique:users'],
@@ -103,8 +108,8 @@ class ManageController extends Controller
             $user = new ModelsUser();
             $user->username = $request->username;
             $user->email = $request->email;
-            $user->role_id = Config::get("constants.roles_id.{$request->role}");
-            $user->role = $request->role;
+            $user->role_id = $request->role;
+            $user->role = Config::get("constants.roles.{$request->role}");
             $user->school_id = $schoolIds;
             $user->school_name = $schoolName;
             $user->password = $password;
