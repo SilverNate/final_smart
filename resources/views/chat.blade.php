@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>testing</title>
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>Chat Room</title>
+        <!-- <meta name="csrf-token" content="{{ csrf_token() }}"> -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <style>
           .list-group{

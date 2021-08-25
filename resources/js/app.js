@@ -50,6 +50,7 @@ const app = new Vue({
     },
     watch:{
         message(){
+            console.log('watch')
             window.Echo.private('chat')
             .whisper('typing', {
                 name: this.message
